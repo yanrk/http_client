@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <http_client>
+        <max_downloader_count>3</max_downloader_count>
+    </http_client>
+    <get_data_tasks>
+        <task>
+            <url_request>https://www.baidu.com</url_request>
+        </task>
+        <task>
+            <url_request>https://www5.rayvision.com</url_request>
+        </task>
+        <task>
+            <url_request>http://10.50.5.31:9915/sys/task_list?onlycount=1</url_request>
+        </task>
+        <task>
+            <url_request>http://abadurl.com/</url_request>
+        </task>
+        <task>
+            <url_request>http://www.rayvision.com/client/md5.php?file=newClient/RenderFarm/RenderFarm2.exe</url_request>
+        </task>
+    </get_data_tasks>
+    <download_tasks>
+        <task>
+            <need_unzip>0</need_unzip>
+            <url_request>http://www.rayvision.com/client/newClient/crclient2/install/RenderFarm_3.0.0.0.exe</url_request>
+            <hash_request>http://www.rayvision.com/client/md5.php?file=newClient/crclient2/install/RenderFarm_3.0.0.0.exe</hash_request>
+            <save_pathname>e:/codes/rayvision_desktop/install/RenderFarm_3.0.0.0.exe</save_pathname>
+            <message_digest>12345678901234567890123456789012</message_digest>
+        </task>
+        <task>
+            <need_unzip>0</need_unzip>
+            <url_request>http://www.rayvision.com/client/newClient/crclient2/install/RenderFarm_3.0.0.1.exe</url_request>
+            <hash_request>http://www.rayvision.com/client/md5.php?file=newClient/crclient2/install/RenderFarm_3.0.0.1.exe</hash_request>
+            <save_pathname>e:/codes/rayvision_desktop/install/RenderFarm_3.0.0.1.exe</save_pathname>
+            <message_digest>d75bea62809d6784a08992f0a761926e</message_digest>
+        </task>
+        <task>
+            <need_unzip>0</need_unzip>
+            <url_request>http://www.rayvision.com/client/newClient/crclient2/install/RenderFarm_Ali_2.2.2.21.exe</url_request>
+            <hash_request>http://www.rayvision.com/client/md5.php?file=newClient/crclient2/install/RenderFarm_Ali_2.2.2.21.exe</hash_request>
+            <save_pathname>e:/codes/rayvision_desktop/install/RenderFarm_Ali_2.2.2.21.exe</save_pathname>
+            <message_digest>12345678901234567890123456789012</message_digest>
+        </task>
+    </download_tasks>
+</root>

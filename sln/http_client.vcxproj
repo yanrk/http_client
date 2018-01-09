@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="dll_debug|Win32">
+      <Configuration>dll_debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="dll_release|Win32">
+      <Configuration>dll_release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\http_client.h" />
+    <ClInclude Include="..\inc\xzip\xunzip.h" />
+    <ClInclude Include="..\inc\xzip\xzip.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="http_client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\http_client.cpp" />
+    <ClCompile Include="..\src\xzip\xunzip.cpp" />
+    <ClCompile Include="..\src\xzip\xzip.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="http_client.def" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F9E70D62-B8B2-426E-BA32-ECC6ACCCD5DA}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>udx_test</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dll_debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dll_release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='dll_debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='dll_release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dll_debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../lib/windows/$(configuration)/</OutDir>
+    <IntDir>../lib/windows/tmp/$(configuration)/</IntDir>
+    <TargetExt>.dll</TargetExt>
+    <TargetName>http_client</TargetName>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dll_release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../lib/windows/$(configuration)/</OutDir>
+    <IntDir>../lib/windows/tmp/$(configuration)/</IntDir>
+    <TargetName>http_client</TargetName>
+    <TargetExt>.dll</TargetExt>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;E:\CODES\boost\boost_1_58_0\;</IncludePath>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;E:\CODES\boost\boost_1_58_0\bin\vc12_x86\lib\;</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='dll_debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>EXPORT_HTTP_CLIENT_DLL;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../inc/;../../../stupid/inc/;../../tools/gnu_libs/curl/inc/;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4351;4996;</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>stupid_base.lib;libcurld_imp.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../stupid/lib/windows/$(configuration)/;../../tools/gnu_libs/curl/lib/windows/$(configuration)/;</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>
+      </ImportLibrary>
+      <ModuleDefinitionFile>http_client.def</ModuleDefinitionFile>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <PostBuildEvent>
+      <Command>
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_base.dll ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_base.pdb ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_net.dll ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_net.pdb ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\gnu\cmarkup\lib\windows\$(configuration)\cmarkup.dll ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\gnu\cmarkup\lib\windows\$(configuration)\cmarkup.pdb ..\lib\windows\$(configuration)\;
+        copy ..\..\tools\gnu_libs\zlib\lib\windows\dll\* ..\lib\windows\$(configuration)\;
+        copy ..\..\tools\gnu_libs\openssl\lib\windows\dll\* ..\lib\windows\$(configuration)\;
+        copy ..\..\tools\gnu_libs\curl\lib\windows\$(configuration)\* ..\lib\windows\$(configuration)\;
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='dll_release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>EXPORT_HTTP_CLIENT_DLL;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../inc/;../../../stupid/inc/;../../tools/gnu_libs/curl/inc/;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251;4351;4996;</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>stupid_base.lib;libcurl_imp.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../stupid/lib/windows/$(configuration)/;../../tools/gnu_libs/curl/lib/windows/$(configuration)/;</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>http_client.def</ModuleDefinitionFile>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <PostBuildEvent>
+      <Command>
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_base.dll ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_base.pdb ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_net.dll ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\lib\windows\$(configuration)\stupid_net.pdb ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\gnu\cmarkup\lib\windows\$(configuration)\cmarkup.dll ..\lib\windows\$(configuration)\;
+        copy ..\..\..\stupid\gnu\cmarkup\lib\windows\$(configuration)\cmarkup.pdb ..\lib\windows\$(configuration)\;
+        copy ..\..\tools\gnu_libs\zlib\lib\windows\dll\* ..\lib\windows\$(configuration)\;
+        copy ..\..\tools\gnu_libs\openssl\lib\windows\dll\* ..\lib\windows\$(configuration)\;
+        copy ..\..\tools\gnu_libs\curl\lib\windows\$(configuration)\* ..\lib\windows\$(configuration)\;
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

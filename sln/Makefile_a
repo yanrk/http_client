@@ -1,0 +1,87 @@
+# arguments
+platform = linux/x86
+
+
+
+# paths home
+project_home       = ..
+build_dir          = $(project_home)
+bin_dir            = $(project_home)/bin/$(platform)
+object_dir         = $(project_home)/.objs
+stupid_home        = $(project_home)/../../stupid
+gnu_home           = $(stupid_home)/gnu
+
+
+
+# includes of gnu headers
+curl_inc_path      = $(gnu_home)/curl/inc
+gnu_includes       = -I$(curl_inc_path)
+
+# includes of stupid headers
+stupid_inc_path    = $(stupid_home)/inc
+stupid_includes    = -I$(stupid_inc_path)
+
+# includes of local headers
+local_inc_path     = $(project_home)/inc
+local_includes     = -I$(local_inc_path)
+
+# all includes that local solution needs
+includes           = $(gnu_includes)
+includes          += $(stupid_includes)
+includes          += $(local_includes)
+
+
+
+# source files of local solution
+local_src_path     = $(project_home)
+local_source       = $(filter %.cpp, $(shell find $(local_src_path) -depth -name "*.cpp"))
+
+
+
+# objects of local solution
+local_objects      = $(local_source:$(project_home)%.cpp=$(object_dir)%.o)
+
+
+
+# output execution
+output_lib         = $(bin_dir)/libhttp_client.a
+
+
+
+# my g++ not support nullptr and 64bits
+# so no -m64, and add a macro -Dnullptr=0
+
+# build flags for objects
+build_obj_flags    = -std=c++11 -g -Wall -O1 -pipe -fPIC
+
+# build flags for execution
+build_exec_flags   = $(build_obj_flags)
+
+# build flags for dynamic link librarys
+build_so_flags     = -std=c++11 -shared
+
+# build flags for static link librarys
+build_a_flags      = -rv
+
+
+
+# build targets
+build    : $(local_objects)
+	@echo
+	@echo "@@@@@  start making http_client  @@@@@"
+	ar $(build_a_flags) $(output_lib) $^
+	@echo "@@@@@  make http_client success  @@@@@"
+	@echo
+
+# build all objects
+$(object_dir)/%.o:$(project_home)/%.cpp
+	@dir=`dirname $@`;      \
+    if [ ! -d $$dir ]; then \
+        mkdir -p $$dir;     \
+    fi
+	g++ -c $(build_obj_flags) $(includes) -o $@ $<
+
+clean    :
+	rm -rf $(object_dir) $(bin_dir)/lib*
+
+rebuild  : clean build

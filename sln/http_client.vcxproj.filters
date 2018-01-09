@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{27d3d446-8052-4637-ba90-33783c9cbe73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{83280174-39cc-43fe-a7fc-91914cdb7379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>{24fccdf4-355f-472d-9695-dd4ad91db966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\xzip">
+      <UniqueIdentifier>{5c525554-8208-4098-800e-e1f3e1d4d733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\xzip">
+      <UniqueIdentifier>{22f33525-3ceb-4695-97b9-e67cde74ef82}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\http_client.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\xzip\xunzip.h">
+      <Filter>inc\xzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\xzip\xzip.h">
+      <Filter>inc\xzip</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="http_client.rc">
+      <Filter>res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\http_client.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xzip\xunzip.cpp">
+      <Filter>src\xzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xzip\xzip.cpp">
+      <Filter>src\xzip</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="http_client.def">
+      <Filter>res</Filter>
+    </None>
+  </ItemGroup>
+</Project>
