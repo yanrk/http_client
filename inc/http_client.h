@@ -1,10 +1,10 @@
 /********************************************************
  * Description : http client
- * Author      : ryan
- * Email       : ryan@rayvision.com
+ * Author      : yanrk
+ * Email       : yanrkchina@163.com
  * Version     : 1.0
  * History     :
- * Copyright(C): RAYVISION
+ * Copyright(C): 2025
  ********************************************************/
 
 #ifndef HTTP_CLIENT_H

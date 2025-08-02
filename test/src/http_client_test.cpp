@@ -218,7 +218,7 @@ int main(int, char * [])
     size_t file_size = 0;
     size_t status_code = 0;
     size_t error_code = 0;
-    if (http_client->get_file_size("http://www.rayvision.com/client/newClient/plugins.xml", file_size, status_code, error_code))
+    if (http_client->get_file_size("http://www.example.com/client/newClient/plugins.xml", file_size, status_code, error_code))
     {
         std::cout << "get file size success" << " size(" << file_size << ")" << std::endl;
     }
