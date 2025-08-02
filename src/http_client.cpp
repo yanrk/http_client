@@ -244,17 +244,17 @@ thread_return_t STUPID_STDCALL download_thread_run(thread_argument_t argument)
         thread_param->http_client.do_download(thread_param->thread_index);
         delete thread_param;
     }
-    return(THREAD_DEFAULT_RET);
+    return THREAD_DEFAULT_RET;
 }
 
 static bool operator < (const http_download_request_t & lhs, const http_download_request_t & rhs)
 {
-    return(strncmp(lhs.url_request, rhs.url_request, sizeof(lhs.url_request)) < 0);
+    return strncmp(lhs.url_request, rhs.url_request, sizeof(lhs.url_request)) < 0;
 }
 
 static bool operator == (const http_download_request_t & lhs, const http_download_request_t & rhs)
 {
-    return(0 == strncmp(lhs.url_request, rhs.url_request, sizeof(lhs.url_request)));
+    return 0 == strncmp(lhs.url_request, rhs.url_request, sizeof(lhs.url_request));
 }
 
 HttpClient::HttpClient()
@@ -324,12 +324,12 @@ bool HttpClient::init(size_t max_downloader_count)
 
         RUN_LOG("[http_client] init success");
 
-        return(true);
+        return true;
     } while (false);
 
     exit();
 
-    return(false);
+    return false;
 }
 
 void HttpClient::exit()
@@ -472,7 +472,7 @@ static bool libcurl_get_file_size(CURL * curl, CURLSH * share_handle, const char
         url_error_code = http_response_callback_error_t::callback_message_libcurl_perform_failure;
         const char * curl_error = curl_easy_strerror(curl_code);
         RUN_LOG("curl_easy_perform(get_file_size) failed (%s), when get url (%s)", (nullptr == curl_error ? "unknown" : curl_error), url_request);
-        return(false);
+        return false;
     }
 
     double content_length = 0.0;
@@ -483,13 +483,13 @@ static bool libcurl_get_file_size(CURL * curl, CURLSH * share_handle, const char
         url_error_code = http_response_callback_error_t::callback_message_libcurl_getinfo_failure;
         const char * curl_error = curl_easy_strerror(curl_code);
         RUN_LOG("curl_easy_getinfo(get_file_size) failed (%s), when get url (%s)", (nullptr == curl_error ? "unknown" : curl_error), url_request);
-        return(false);
+        return false;
     }
 
     url_status_code = 200;
     url_error_code = http_response_callback_error_t::callback_message_response_success;
     file_size = static_cast<size_t>(content_length);
-    return(true);
+    return true;
 }
 
 bool HttpClient::get_file_size(const char * url_request, size_t & file_size, size_t & url_status_code, size_t & url_error_code)
@@ -499,7 +499,7 @@ bool HttpClient::get_file_size(const char * url_request, size_t & file_size, siz
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_download_been_stopped;
         RUN_LOG("get_file_size failed, http_client is exit");
-        return(false);
+        return false;
     }
 
     if (nullptr == url_request)
@@ -507,7 +507,7 @@ bool HttpClient::get_file_size(const char * url_request, size_t & file_size, siz
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_argument_invalid;
         RUN_LOG("get_file_size failed, url_request is nullptr");
-        return(false);
+        return false;
     }
 
     CURL * curl = curl_easy_init();
@@ -516,14 +516,14 @@ bool HttpClient::get_file_size(const char * url_request, size_t & file_size, siz
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_libcurl_init_failure;
         RUN_LOG("curl_easy_init(get_file_size) failed, when get url (%s)", url_request);
-        return(false);
+        return false;
     }
 
     libcurl_get_file_size(curl, m_share_handle, url_request, file_size, url_status_code, url_error_code);
 
     curl_easy_cleanup(curl);
 
-    return(http_response_callback_error_t::callback_message_response_success == url_error_code);
+    return http_response_callback_error_t::callback_message_response_success == url_error_code;
 }
 
 struct get_data_userdata_t
@@ -546,15 +546,15 @@ static size_t libcurl_get_data_callback(void * ptr, size_t size, size_t nmemb, v
     get_data_userdata_t * get_data_userdata = reinterpret_cast<get_data_userdata_t *>(user_data);
     if (nullptr == get_data_userdata || nullptr == get_data_userdata->storage_callback || nullptr == get_data_userdata->storage_buffer)
     {
-        return(0); /* tell libcurl to stop get_data */
+        return 0; /* tell libcurl to stop get_data */
     }
     const size_t recv_len = size * nmemb;
     const char * data = reinterpret_cast<char *>(ptr);
     if (!get_data_userdata->storage_callback(data, recv_len, get_data_userdata->storage_buffer))
     {
-        return(0); /* tell libcurl to stop get_data */
+        return 0; /* tell libcurl to stop get_data */
     }
-    return(recv_len);
+    return recv_len;
 }
 
 static bool libcurl_get_data(CURL * curl, CURLSH * share_handle, const char * url_request, storage_callback_t storage_callback, void * storage_buffer, size_t & url_status_code, size_t & url_error_code)
@@ -591,7 +591,7 @@ static bool libcurl_get_data(CURL * curl, CURLSH * share_handle, const char * ur
         url_error_code = http_response_callback_error_t::callback_message_libcurl_perform_failure;
         const char * curl_error = curl_easy_strerror(curl_code);
         RUN_LOG("curl_easy_perform(get_data) failed (%s), when get url (%s)", (nullptr == curl_error ? "unknown" : curl_error), url_request);
-        return(false);
+        return false;
     }
 
     long status_code = 0;
@@ -603,7 +603,7 @@ static bool libcurl_get_data(CURL * curl, CURLSH * share_handle, const char * ur
         url_error_code = http_response_callback_error_t::callback_message_libcurl_getinfo_failure;
         const char * curl_error = curl_easy_strerror(curl_code);
         RUN_LOG("curl_easy_getinfo(get_data) failed (%s), when get url (%s)", (nullptr == curl_error ? "unknown" : curl_error), url_request);
-        return(false);
+        return false;
     }
 
     url_status_code = status_code;
@@ -612,7 +612,7 @@ static bool libcurl_get_data(CURL * curl, CURLSH * share_handle, const char * ur
     {
         url_error_code = http_response_callback_error_t::callback_message_response_success;
         RUN_LOG("libcurl_get_data success, when get url (%s)", url_request);
-        return(true);
+        return true;
     }
 
     switch (status_code / 100)
@@ -646,7 +646,7 @@ static bool libcurl_get_data(CURL * curl, CURLSH * share_handle, const char * ur
 
     RUN_LOG("curl_easy_getinfo(get_data) status code (%d), when get url (%s)", status_code, url_request);
 
-    return(false);
+    return false;
 }
 
 bool HttpClient::get_data(const char * url_request, storage_callback_t storage_callback, void * storage_buffer, size_t & url_status_code, size_t & url_error_code)
@@ -656,7 +656,7 @@ bool HttpClient::get_data(const char * url_request, storage_callback_t storage_c
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_download_been_stopped;
         RUN_LOG("get_data failed, http_client is exit");
-        return(false);
+        return false;
     }
 
     if (nullptr == url_request)
@@ -664,7 +664,7 @@ bool HttpClient::get_data(const char * url_request, storage_callback_t storage_c
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_argument_invalid;
         RUN_LOG("get_data failed, url_request is nullptr");
-        return(false);
+        return false;
     }
 
     if (nullptr == storage_callback)
@@ -672,7 +672,7 @@ bool HttpClient::get_data(const char * url_request, storage_callback_t storage_c
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_argument_invalid;
         RUN_LOG("get_data failed, storage_callback is nullptr");
-        return(false);
+        return false;
     }
 
     if (nullptr == storage_buffer)
@@ -680,7 +680,7 @@ bool HttpClient::get_data(const char * url_request, storage_callback_t storage_c
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_argument_invalid;
         RUN_LOG("get_data failed, storage_buffer is nullptr");
-        return(false);
+        return false;
     }
 
     CURL * curl = curl_easy_init();
@@ -689,14 +689,14 @@ bool HttpClient::get_data(const char * url_request, storage_callback_t storage_c
         url_status_code = 0;
         url_error_code = http_response_callback_error_t::callback_message_libcurl_init_failure;
         RUN_LOG("curl_easy_init(get_data) failed, when get url (%s)", url_request);
-        return(false);
+        return false;
     }
 
     libcurl_get_data(curl, m_share_handle, url_request, storage_callback, storage_buffer, url_status_code, url_error_code);
 
     curl_easy_cleanup(curl);
 
-    return(http_response_callback_error_t::callback_message_response_success == url_error_code);
+    return http_response_callback_error_t::callback_message_response_success == url_error_code;
 }
 
 static bool get_data_storage(const char * data, size_t data_len, void * storage)
@@ -704,10 +704,10 @@ static bool get_data_storage(const char * data, size_t data_len, void * storage)
     std::string * buffer = reinterpret_cast<std::string *>(storage);
     if (nullptr == buffer)
     {
-        return(false);
+        return false;
     }
     buffer->append(data, data_len);
-    return(true);
+    return true;
 }
 
 static bool libcurl_check_need_download(CURL * curl, CURLSH * share_handle, download_request_status_t & download_request_status, http_response_callback_info_t & callback_info)
@@ -716,7 +716,7 @@ static bool libcurl_check_need_download(CURL * curl, CURLSH * share_handle, down
 
     if ('\0' == download_request.hash_request[0] || '\0' == download_request.message_digest[0])
     {
-        return(true);
+        return true;
     }
 
     std::string storage_buffer;
@@ -725,7 +725,7 @@ static bool libcurl_check_need_download(CURL * curl, CURLSH * share_handle, down
         callback_info.status_code = 0;
         callback_info.error_code = http_response_callback_error_t::callback_message_get_message_digest_failure;
         RUN_LOG("get_data(message_digest) failure, when get url (%s)", download_request.hash_request);
-        return(false);
+        return false;
     }
 
     const size_t digest_size = strlen(download_request.message_digest);
@@ -734,17 +734,17 @@ static bool libcurl_check_need_download(CURL * curl, CURLSH * share_handle, down
         callback_info.status_code = 0;
         callback_info.error_code = http_response_callback_error_t::callback_message_response_4xx_failure;
         RUN_LOG("get_data(message_digest) failure, message_digest is invalid, when get url (%s)", download_request.hash_request);
-        return(false);
+        return false;
     }
     else if (0 == Stupid::Base::stupid_strncmp_ignore_case(storage_buffer.c_str(), download_request.message_digest, digest_size))
     {
         callback_info.status_code = 200;
         callback_info.error_code = http_response_callback_error_t::callback_message_response_success;
         RUN_LOG("get_data(message_digest) success (need not update), when get url (%s)", download_request.hash_request);
-        return(false);
+        return false;
     }
 
-    return(true);
+    return true;
 }
 
 struct download_userdata_t
@@ -767,16 +767,16 @@ static size_t libcurl_download_callback(void * ptr, size_t size, size_t nmemb, v
     download_userdata_t * download_userdata = reinterpret_cast<download_userdata_t *>(user_data);
     if (nullptr == download_userdata)
     {
-        return(0); /* tell libcurl to stop download */
+        return 0; /* tell libcurl to stop download */
     }
     if (download_userdata->download_request_status.been_stopped)
     {
-        return(0); /* tell libcurl to stop download */
+        return 0; /* tell libcurl to stop download */
     }
     const size_t recv_len = size * nmemb;
     const char * data = reinterpret_cast<char *>(ptr);
     download_userdata->save_file.write(data, recv_len);
-    return(recv_len);
+    return recv_len;
 }
 
 static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_request_status_t & download_request_status, http_response_callback_info_t & callback_info)
@@ -790,7 +790,7 @@ static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_reques
         callback_info.status_code = 0;
         callback_info.error_code = http_response_callback_error_t::callback_message_create_file_failure;
         RUN_LOG("create file (%s) failed, when get url (%s)", temp_save_pathname.c_str(), download_request.url_request);
-        return(false);
+        return false;
     }
 
     download_userdata_t download_userdata(file, download_request_status);
@@ -825,7 +825,7 @@ static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_reques
         callback_info.error_code = http_response_callback_error_t::callback_message_libcurl_perform_failure;
         const char * curl_error = curl_easy_strerror(curl_code);
         RUN_LOG("curl_easy_perform failed (%s), when get url (%s)", (nullptr == curl_error ? "unknown" : curl_error), download_request.url_request);
-        return(false);
+        return false;
     }
 
     long status_code = 0;
@@ -837,7 +837,7 @@ static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_reques
         callback_info.error_code = http_response_callback_error_t::callback_message_libcurl_getinfo_failure;
         const char * curl_error = curl_easy_strerror(curl_code);
         RUN_LOG("curl_easy_getinfo(status_code) failed (%s), when get url (%s)", (nullptr == curl_error ? "unknown" : curl_error), download_request.url_request);
-        return(false);
+        return false;
     }
 
     file.close();
@@ -850,7 +850,7 @@ static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_reques
             callback_info.status_code = 0;
             callback_info.error_code = http_response_callback_error_t::callback_message_rename_file_failure;
             RUN_LOG("rename file (%s) -> (%s) failed, when get url (%s)", temp_save_pathname.c_str(), download_request.save_pathname, download_request.url_request);
-            return(false);
+            return false;
         }
     }
     else
@@ -864,7 +864,7 @@ static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_reques
     {
         callback_info.error_code = http_response_callback_error_t::callback_message_response_success;
         RUN_LOG("url_download_with_libcurl success, when get url (%s)", download_request.url_request);
-        return(true);
+        return true;
     }
 
     switch (status_code / 100)
@@ -898,7 +898,7 @@ static bool libcurl_download(CURL * curl, CURLSH * share_handle, download_reques
 
     RUN_LOG("curl_easy_getinfo status code (%d), when get url (%s)", status_code, download_request.url_request);
 
-    return(false);
+    return false;
 }
 
 bool HttpClient::url_download_with_libcurl(download_request_status_t & download_request_status, http_response_callback_info_t & callback_info)
@@ -917,7 +917,7 @@ bool HttpClient::url_download_with_libcurl(download_request_status_t & download_
         callback_info.status_code = 0;
         callback_info.error_code = http_response_callback_error_t::callback_message_libcurl_init_failure;
         RUN_LOG("curl_easy_init failed, when get url (%s)", download_request.url_request);
-        return(false);
+        return false;
     }
 
     if (!download_request_status.been_stopped && libcurl_check_need_download(curl, m_share_handle, download_request_status, callback_info) && !download_request_status.been_stopped)
@@ -927,7 +927,7 @@ bool HttpClient::url_download_with_libcurl(download_request_status_t & download_
 
     curl_easy_cleanup(curl);
 
-    return(http_response_callback_error_t::callback_message_response_success == callback_info.error_code);
+    return http_response_callback_error_t::callback_message_response_success == callback_info.error_code;
 }
 
 static bool unzip_file(const std::string & unzip_dirname, const std::string & zip_filename, bool & been_stopped)
@@ -949,7 +949,7 @@ static bool unzip_file(const std::string & unzip_dirname, const std::string & zi
     if (nullptr == hzip)
     {
         RUN_LOG("openzip(%s) failed", zip_filename.c_str());
-        return(false);
+        return false;
     }
 
     ZIPENTRY zipentry = { 0 };
@@ -980,7 +980,7 @@ static bool unzip_file(const std::string & unzip_dirname, const std::string & zi
     Stupid::Base::stupid_set_current_work_directory(current_dirname);
     */
 #endif // _MSC_VER
-    return(!been_stopped);
+    return !been_stopped;
 }
 
 void HttpClient::do_download(size_t thread_index)
@@ -1072,7 +1072,7 @@ void HttpClient::do_download(size_t thread_index)
 
 IHttpClient * create_http_client()
 {
-    return(new HttpClient);
+    return new HttpClient;
 }
 
 void destroy_http_client(IHttpClient * http_client)

@@ -9,7 +9,7 @@ static thread_return_t STUPID_STDCALL handle_download_callback(thread_argument_t
     {
         http_client_sink->handle_download_message();
     }
-    return(THREAD_DEFAULT_RET);
+    return THREAD_DEFAULT_RET;
 }
 
 HttpClientSink::HttpClientSink()
@@ -44,12 +44,12 @@ bool HttpClientSink::init()
 
         DBG_LOG("http client sink init end");
 
-        return(true);
+        return true;
     }
 
     clear();
 
-    return(false);
+    return false;
 }
 
 void HttpClientSink::exit()
@@ -127,10 +127,10 @@ bool HttpClientSink::pop_download_message(http_response_callback_info_t & callba
     {
         callback_info = m_download_message_list.front();
         m_download_message_list.pop_front();
-        return(true);
+        return true;
     }
 
-    return(false);
+    return false;
 }
 
 void HttpClientSink::handle_message(const http_response_callback_info_t & callback_info, std::ofstream & ofs)
